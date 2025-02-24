@@ -6,7 +6,9 @@ MLX_FLAGS = -I $(MLX_DIR) -L $(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 NAME = so_long
 SRC_DIR = src
 OBJ_DIR = obj
-SRC = $(wildcard $(SRC_DIR)/*.c)
+#SRC = $(wildcard $(SRC_DIR)/*.c)
+SRC = $(SRC_DIR)/main.c
+
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # 🎯 Règle principale : Compilation du programme
