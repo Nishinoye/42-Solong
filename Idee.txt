@@ -34,3 +34,4 @@ char *map[] = {
         "111111111111111111111111111111111111111111111111111",
         NULL
     }; map pour 50 x 50
+git submodule update --init --recursive pour submodule

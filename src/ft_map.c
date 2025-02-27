@@ -6,24 +6,23 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:32:37 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/24 17:43:43 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:51:06 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "../solong.h"
 
-int	map_height(char *map_name)
+int	map_height()
 {
 	int		fd;
 	int		height;
 	char	*line;
 
-	fd = open(map_name, O_RDONLY);
+	fd = open("maps/mapbase.ber", O_RDONLY);
 	if (fd < 0)
 		return (-1);
 	height = 0;
-	while (line = get_next_line(fd))
+	while ((line = get_next_line(fd)))
 	{
 		free(line);
 		height++;
@@ -31,136 +30,218 @@ int	map_height(char *map_name)
 	return (height);
 }
 
-void	read_map(char *map_name)
+char	**read_map(t_game *map)
 {
 	int		fd;
 	int		i;
 	int		height;
-	t_game	*game;
-	
-	height = map_height(map_name);
+
+	height = map_height();
 	if (height <= 0)
 		return (NULL);
-	fd = open(map_name, O_RDONLY);
+	fd = open("maps/mapbase.ber", O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	game->map = malloc(sizeof(char *) * (height + 1));
-	if (!game->map)
+	map->map = malloc(sizeof(char *) * (height + 1));
+	if (!map->map)
 		return (NULL);
 	i = 0;
-	while (i < height)
-		game->map[i++] = get_next_line(fd);
+	while (height > i)
+	{
+		map->map[i] = get_next_line(fd);
+		i++;
+	}
 	close(fd);
+	return(map->map);
 }
 
-int	check_walls(char **map)
+int	check_walls(t_game *map)
 {
 	int	x;
 	int	y;
-	
+	int	len;
+	int	height;
+
+	len = ft_strlen(map->map[0]);
+	height = map_height();
 	y = 0;
-	while (map[0][y])
+	while (y < height)
 	{
-		if (map[0][y] != '1' || map[map_height(map) - 1][y] != '1')
+		if (map->map[y][0] != '1' || map->map[y][len - 2] != '1')
 			return (0);
 		y++;
 	}
 	x = 0;
-	while (map[x])
+	while (x < len - 1)
 	{
-		if (map[x][0] != '1' || map[x][ft_strlen(map[i]) - 1] != '1')
+		if (map->map[0][x] != '1' || map->map[height - 1][x] != '1')
 			return (0);
 		x++;
 	}
 	return (1);
 }
 
-void	count_eleme(t_game *game)
+void	count_elem(t_game *game)
 {
 	int		x;
 	int		y;
 
-	y = 0;
+	y = 1;
 	while (game->map[y])
 	{
-		x = 0;
+		x = 1;
 		while (game->map[y][x])
 		{
-			if (game->map[x][y] == 'C')
-				game->C++;
-			if (game->map[x][y] == 'E')
-				game->E++;
-			if (game->map[x][y] == 'P')
-				game->P++;
+			if (game->map[y][x] == 'C')
+				game->count_C++;
+			if (game->map[y][x] == 'E')
+				game->count_E++;
+			if (game->map[y][x] == 'P')
+			{
+				game->count_P++;
+				game->py = y;
+				game->px = x;
+			}
 			x++;
 		}
 		y++;
 	}
 }
 
-int	check_map(t_game *game)
-{	
-	if (!check_walls(game->map))
+int	check_elem(t_game *map)
+{
+	map->count_C = 0;
+	map->count_E = 0;
+	map->count_P = 0;
+	count_elem(map);
+	if (!check_walls(map))
 		return (0);
-	if (game->C != 1)
+	if (map->count_C < 1)
 		return (0);
-	if (game->E != 1)
+	if (map->count_E != 1)
 		return (0);
-	if (game->P != 1)
+	if (map->count_P != 1)
 		return (0);
 	return (1);
-	// if (count_eleme(map, 'B') != 1)
+	// if (count_elem(map, 'B') != 1)
 	// 	return (0);
 	//	BONUS
 }
 
-void	fill_map(int y, int x, char **temp_map)
+void	fill_map(int y, int x, char **temp_map, t_game *game)
 {
-	t_game	*game;
-	
-	if (game->map[game->py][game->px] == 1 || game->map[game->py][game->px] == 'V')
+	if (temp_map[y][x] == 'E')
+	{
+		game->ye = y;
+		game->xe = x;
+	}
+	if (temp_map[y][x] == 'C')
+		game->count++;
+	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
 		return;
-	game->map[game->y][game->x] = 'V';
-	fill_map(y + 1, x, temp_map);
-	fill_map(y - 1, x, temp_map);
-	fill_map(y, x + 1, temp_map);
-	fill_map(y, x - 1, temp_map);
+	temp_map[y][x] = 'V';
+	fill_map(y + 1, x, temp_map, game);
+	fill_map(y - 1, x, temp_map, game);
+	fill_map(y, x + 1, temp_map, game);
+	fill_map(y, x - 1, temp_map, game);
+}
+
+char	**copy_map(t_game *map)
+{
+	int		i;
+	char	**new_map;
+
+	i = 0;
+	while (map->map[i])
+		i++;
+	new_map = malloc(sizeof(char *) * (i + 1));
+	if (!new_map)
+		return(NULL);
+	i = 0;
+	while (map->map[i])
+	{
+		new_map[i] = ft_strdup(map->map[i]);
+		if (!new_map[i])
+		{
+			while (i >= 0)
+				free(new_map[i]);
+			free(new_map);
+			return (NULL);
+		}
+		i++;
+	}
+	new_map[i] = NULL;
+	return (new_map);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	if (!map)
+		return;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
 }
 
 int	valid_map(t_game *map)
 {
 	char	**temp_map;
 
-	temp_map = copy_map;
-	find_P(map);
-	fill_map(map->py, map->px, temp_map);
-	find_E(map, map);
-	if (map[map->py][map->px] != 'V')
+	read_map(map);
+	if (!check_elem(map))
+		return (0);
+	temp_map = copy_map(map);
+	map->count = 0;
+	fill_map(map->py, map->px, temp_map, map);
+	if (map->count != map->count_C)
+		return (0);
+	if (temp_map[map->ye][map->xe] != 'V')
 	{
-		free_map(temp);
+		free_map(temp_map);
 		return (0);
 	}
-	free_map(temp);
+	free_map(temp_map);
 	return (1);
 }
 
-void	render_map(t_game *game, char **map)
+int	render_map(t_game *game)
 {
-	int	x;
-	int	y;
-	
-	y = 0;
-	while (map[y])
+	game->y = 0;
+
+
+	if (valid_map(game))
 	{
-		x = 0;
-		while (map[y][x])
+		while (game->map[game->y])
 		{
-			if (map[y][x] == '1')
-				mlx_put_image_to_window(game->mlx, game->win, game->wall, x * 50, y * 50);
-			else if (map [y][x] == '0')
-				mlx_put_image_to_window(game->mlx, game->win, game->floor, x * 50, y * 50);
-			x++;
+			game->x = 0;
+			while (game->map[game->y][game->x])
+			{
+				if (game->map[game->y][game->x] == '1')
+					mlx_put_image_to_window(game->mlx, game->win, game->wall, game->x * 50, game->y * 50);
+				else if (game->map[game->y][game->x] == 'C')
+					mlx_put_image_to_window(game->mlx, game->win, game->key, game->x * 50, game->y * 50);
+				else if (game->map[game->y][game->x] == 'E')
+					mlx_put_image_to_window(game->mlx, game->win, game->zelda, game->x * 50, game->y * 50);
+				else if (game->map[game->y][game->x] == '0')
+					mlx_put_image_to_window(game->mlx, game->win, game->floor, game->x * 50, game->y * 50);
+				else if (game->map[game->y][game->x] == 'P')
+					mlx_put_image_to_window(game->mlx, game->win, game->link_down, game->x * 50, game->y * 50);
+				else if (game->map[game->y][game->x] == 'B')
+					mlx_put_image_to_window(game->mlx, game->win, game->enemy_down, game->x * 50, game->y * 50);
+				game->x++;
+			}
+			game->y++;
 		}
-		y++;
+		printf("Map valide !");
+		return (1);
 	}
+	else
+		printf("Map non valide !");
+	return (0);
 }

@@ -6,14 +6,20 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/24 17:25:33 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:57:32 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SOLONG_H
 # define SOLONG_H
 
-# include "mlx.h"
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 13
+
+# endif
+
+# include "minilibx-linux/mlx.h"
+# include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -25,23 +31,27 @@ typedef struct s_game
 	void	*win;
 	void	*wall;
 	void	*floor;
+	void	*key;
+	void	*zelda;
+	void	*link_down;
+	void	*enemy_down;
 	int		img_wth;
 	int		img_hgt;
-	int		P;
-	int		C;
-	int		E;
-	int		x;
+	int		count_P;
+	int		count_C;
+	int		count_E;
+	int		count;
 	int		y;
+	int		x;
 	int		py;
 	int		px;
+	int		ye;
+	int		xe;
 	char	**map;
 }	t_game;
-
-void	render_map(t_game *game, char **map);
-void	find_P(t_game *game, char **map);
-void	find_C(t_game *game, char **map);
-void	find_E(t_game *game, char **map);
+int		render_map(t_game *game);
 int		close_window();
 int		key(int keycode);
+char	*get_next_line(int fd);
 
 #endif

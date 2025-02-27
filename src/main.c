@@ -6,11 +6,10 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:25:05 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/24 18:20:20 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:08:26 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "../solong.h"
 
 int close_window()
@@ -27,13 +26,13 @@ int key(int keycode)
 }
 int main()
 {
-    t_game game;
+    t_game  mlx;
     int     x;
     int     y;
 
     printf("🔧 Initialisation de MLX...\n");
-    game.mlx = mlx_init();
-    if (!game.mlx)
+    mlx.mlx = mlx_init();
+    if (!mlx.mlx)
     {
         printf("❌ Erreur: mlx_init() a échoué !\n");
         return (1);
@@ -41,55 +40,31 @@ int main()
     printf("✅ MLX initialisé avec succès !\n");
 
     printf("🔧 Création de la fenêtre...\n");
-    mlx_get_screen_size(game.mlx, &x, &y);
-    game.win = mlx_new_window(game.mlx, x, y, "so_long");
-    if (!game.win)
+    mlx_get_screen_size(mlx.mlx, &x, &y);
+    mlx.win = mlx_new_window(mlx.mlx, x, y, "so_long");
+    if (!mlx.win)
     {
         printf("❌ Erreur: mlx_new_window() a échoué !\n");
         return (1);
     }
     printf("✅ Fenêtre créée avec succès !\n");
 
-    mlx_key_hook(game.win, key, NULL);
+    mlx_key_hook(mlx.win, key, NULL);
 
-    mlx_hook(game.win, 17, 0, close_window, NULL);
+    mlx_hook(mlx.win, 17, 0, close_window, NULL);
 
-    game.wall = mlx_xpm_file_to_image(game.mlx, "img/wall.xpm", &game.img_wth, &game.img_hgt);
-    game.floor = mlx_xpm_file_to_image(game.mlx, "img/floor.xpm", &game.img_wth, &game.img_hgt);
+    mlx.wall = mlx_xpm_file_to_image(mlx.mlx, "img/wall.xpm", &mlx.img_wth, &mlx.img_hgt);
+    mlx.floor = mlx_xpm_file_to_image(mlx.mlx, "img/floor.xpm", &mlx.img_wth, &mlx.img_hgt);
+    mlx.key = mlx_xpm_file_to_image(mlx.mlx, "img/key.xpm", &mlx.img_wth, &mlx.img_hgt);
+    mlx.zelda = mlx_xpm_file_to_image(mlx.mlx, "img/zelda.xpm", &mlx.img_wth, &mlx.img_hgt);
+    mlx.link_down = mlx_xpm_file_to_image(mlx.mlx, "img/link_down.xpm", &mlx.img_wth, &mlx.img_hgt);
+    mlx.enemy_down = mlx_xpm_file_to_image(mlx.mlx, "img/enemy_down.xpm", &mlx.img_wth, &mlx.img_hgt);
 
-    // char *map[] = {
-    //     "111111111111111111111111111111111111111111111111111",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "100000000000000000000000000000000000000000000000001",
-    //     "111111111111111111111111111111111111111111111111111",
-    //     NULL
-    // };
-    //render_map(&game, map);
-
-    //printf("🔄 Lancement de mlx_loop()...\n");
-    mlx_loop(game.mlx);
+    if (render_map(&mlx))
+    {
+        printf("🔄 Lancement de mlx_loop()...\n");
+        mlx_loop(mlx.mlx);
+    }
     
     return (0);
 }
