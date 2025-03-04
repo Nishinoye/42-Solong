@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:25:05 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/27 13:08:26 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:52:16 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,18 @@ int key(int keycode)
         close_window();
     return (0);
 }
-int main()
+int main(int argc, char **argv)
 {
     t_game  mlx;
     int     x;
     int     y;
 
+    if (argc != 2)
+    {
+        printf("Pas le bon nombre d'arguments");
+        return (0);
+    }
+    mlx.argv = argv;
     printf("🔧 Initialisation de MLX...\n");
     mlx.mlx = mlx_init();
     if (!mlx.mlx)

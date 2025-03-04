@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/27 12:57:32 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:39:15 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_game
 	int		ye;
 	int		xe;
 	char	**map;
+	char	**argv;
 }	t_game;
 int		render_map(t_game *game);
 int		close_window();

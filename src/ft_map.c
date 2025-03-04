@@ -6,19 +6,19 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:32:37 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/27 14:51:06 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:09:15 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../solong.h"
 
-int	map_height()
+int	map_height(t_game *map)
 {
 	int		fd;
 	int		height;
 	char	*line;
 
-	fd = open("maps/mapbase.ber", O_RDONLY);
+	fd = open(map->argv[1], O_RDONLY);
 	if (fd < 0)
 		return (-1);
 	height = 0;
@@ -36,10 +36,10 @@ char	**read_map(t_game *map)
 	int		i;
 	int		height;
 
-	height = map_height();
+	height = map_height(map);
 	if (height <= 0)
 		return (NULL);
-	fd = open("maps/mapbase.ber", O_RDONLY);
+	fd = open(map->argv[1], O_RDONLY);
 	if (fd < 0)
 		return (NULL);
 	map->map = malloc(sizeof(char *) * (height + 1));
@@ -63,7 +63,7 @@ int	check_walls(t_game *map)
 	int	height;
 
 	len = ft_strlen(map->map[0]);
-	height = map_height();
+	height = map_height(map);
 	y = 0;
 	while (y < height)
 	{
@@ -193,7 +193,8 @@ int	valid_map(t_game *map)
 {
 	char	**temp_map;
 
-	read_map(map);
+	if (!read_map(map))
+		return (0);
 	if (!check_elem(map))
 		return (0);
 	temp_map = copy_map(map);
