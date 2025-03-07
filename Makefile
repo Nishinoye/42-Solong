@@ -6,7 +6,7 @@
 #    By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/10 12:00:00 by YourLogin         #+#    #+#              #
-#    Updated: 2025/02/25 20:53:13 by tedcarpi         ###   ########.fr        #
+#    Updated: 2025/03/07 12:01:56 by tedcarpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ LIBFT_LIB	= $(LIBFT_DIR)/libft.a
 LIBFT_FLAGS	= -L$(LIBFT_DIR) -lft
 
 # Fichiers sources et objets
-SRC_FILES	= main.c ft_map.c get_next_line.c get_next_line_utils.c
+SRC_FILES	= main.c ft_map.c get_next_line.c get_next_line_utils.c ft_move.c ft_img.c
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ			= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

@@ -35,3 +35,7 @@ char *map[] = {
         NULL
     }; map pour 50 x 50
 git submodule update --init --recursive pour submodule
+
+
+plusieurs e
+aucun c

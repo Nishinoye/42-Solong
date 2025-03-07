@@ -6,13 +6,13 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:32:37 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/03/03 16:09:15 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/03/07 14:10:25 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../solong.h"
 
-int	map_height(t_game *map)
+int	map_height(t_map *map)
 {
 	int		fd;
 	int		height;
@@ -30,7 +30,7 @@ int	map_height(t_game *map)
 	return (height);
 }
 
-char	**read_map(t_game *map)
+char	**read_map(t_map *map)
 {
 	int		fd;
 	int		i;
@@ -42,7 +42,7 @@ char	**read_map(t_game *map)
 	fd = open(map->argv[1], O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	map->map = malloc(sizeof(char *) * (height + 1));
+	map->map =ft_calloc((height + 1), sizeof(char *));
 	if (!map->map)
 		return (NULL);
 	i = 0;
@@ -55,7 +55,7 @@ char	**read_map(t_game *map)
 	return(map->map);
 }
 
-int	check_walls(t_game *map)
+int	check_walls(t_map *map)
 {
 	int	x;
 	int	y;
@@ -81,26 +81,26 @@ int	check_walls(t_game *map)
 	return (1);
 }
 
-void	count_elem(t_game *game)
+void	count_elem(t_map *map)
 {
-	int		x;
-	int		y;
+	int			x;
+	int			y;
 
 	y = 1;
-	while (game->map[y])
+	while (map->map[y])
 	{
 		x = 1;
-		while (game->map[y][x])
+		while (map->map[y][x])
 		{
-			if (game->map[y][x] == 'C')
-				game->count_C++;
-			if (game->map[y][x] == 'E')
-				game->count_E++;
-			if (game->map[y][x] == 'P')
+			if (map->map[y][x] == 'C')
+				map->count_C++;
+			if (map->map[y][x] == 'E')
+				map->count_E++;
+			if (map->map[y][x] == 'P')
 			{
-				game->count_P++;
-				game->py = y;
-				game->px = x;
+				map->count_P++;
+				map->py = y;
+				map->px = x;
 			}
 			x++;
 		}
@@ -108,8 +108,10 @@ void	count_elem(t_game *game)
 	}
 }
 
-int	check_elem(t_game *map)
+int	check_elem(t_map *map)
 {
+	map->py = 0;
+	map->px = 0;
 	map->count_C = 0;
 	map->count_E = 0;
 	map->count_P = 0;
@@ -123,30 +125,27 @@ int	check_elem(t_game *map)
 	if (map->count_P != 1)
 		return (0);
 	return (1);
-	// if (count_elem(map, 'B') != 1)
-	// 	return (0);
-	//	BONUS
 }
 
-void	fill_map(int y, int x, char **temp_map, t_game *game)
+void	fill_map(int y, int x, char **temp_map, t_map *map)
 {
 	if (temp_map[y][x] == 'E')
 	{
-		game->ye = y;
-		game->xe = x;
+		map->ey = y;
+		map->ex = x;
 	}
 	if (temp_map[y][x] == 'C')
-		game->count++;
+		map->count++;
 	if (temp_map[y][x] == '1' || temp_map[y][x] == 'V')
 		return;
 	temp_map[y][x] = 'V';
-	fill_map(y + 1, x, temp_map, game);
-	fill_map(y - 1, x, temp_map, game);
-	fill_map(y, x + 1, temp_map, game);
-	fill_map(y, x - 1, temp_map, game);
+	fill_map(y + 1, x, temp_map, map);
+	fill_map(y - 1, x, temp_map, map);
+	fill_map(y, x + 1, temp_map, map);
+	fill_map(y, x - 1, temp_map, map);
 }
 
-char	**copy_map(t_game *map)
+char	**copy_map(t_map *map)
 {
 	int		i;
 	char	**new_map;
@@ -189,7 +188,7 @@ void	free_map(char **map)
 	free(map);
 }
 
-int	valid_map(t_game *map)
+int	valid_map(t_map *map)
 {
 	char	**temp_map;
 
@@ -202,47 +201,13 @@ int	valid_map(t_game *map)
 	fill_map(map->py, map->px, temp_map, map);
 	if (map->count != map->count_C)
 		return (0);
-	if (temp_map[map->ye][map->xe] != 'V')
+	map->count = 0;
+	if (temp_map[map->ey][map->ex] != 'V')
 	{
 		free_map(temp_map);
 		return (0);
 	}
 	free_map(temp_map);
+	
 	return (1);
-}
-
-int	render_map(t_game *game)
-{
-	game->y = 0;
-
-
-	if (valid_map(game))
-	{
-		while (game->map[game->y])
-		{
-			game->x = 0;
-			while (game->map[game->y][game->x])
-			{
-				if (game->map[game->y][game->x] == '1')
-					mlx_put_image_to_window(game->mlx, game->win, game->wall, game->x * 50, game->y * 50);
-				else if (game->map[game->y][game->x] == 'C')
-					mlx_put_image_to_window(game->mlx, game->win, game->key, game->x * 50, game->y * 50);
-				else if (game->map[game->y][game->x] == 'E')
-					mlx_put_image_to_window(game->mlx, game->win, game->zelda, game->x * 50, game->y * 50);
-				else if (game->map[game->y][game->x] == '0')
-					mlx_put_image_to_window(game->mlx, game->win, game->floor, game->x * 50, game->y * 50);
-				else if (game->map[game->y][game->x] == 'P')
-					mlx_put_image_to_window(game->mlx, game->win, game->link_down, game->x * 50, game->y * 50);
-				else if (game->map[game->y][game->x] == 'B')
-					mlx_put_image_to_window(game->mlx, game->win, game->enemy_down, game->x * 50, game->y * 50);
-				game->x++;
-			}
-			game->y++;
-		}
-		printf("Map valide !");
-		return (1);
-	}
-	else
-		printf("Map non valide !");
-	return (0);
 }
