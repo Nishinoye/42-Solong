@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/03/07 14:29:58 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:22:30 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,34 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-typedef struct s_player
-{
-	int	hp;
-	int	y;
-	int	x;
-}	t_player;
-
 typedef struct s_map
 {
 	char	**map;
 	char	**argv;
-	int		count_P;
-	int		count_C;
-	int		count_E;
+	int		count_p;
+	int		count_c;
+	int		count_e;
 	int		ey;
 	int		ex;
 	int		py;
 	int		px;
 	int		count;
+	int		move;
 }	t_map;
+
+typedef struct s_player
+{
+	void	*up[2];
+	void	*left[2];
+	void	*down[2];
+	void	*right[2];
+	int		w;
+	int		h;
+	int		walk;
+	int		hp;
+	int		y;
+	int		x;
+}	t_player;
 
 typedef struct s_img
 {
@@ -52,17 +60,17 @@ typedef struct s_img
 	void	*floor;
 	void	*key;
 	void	*zelda;
-	void	*link_up[2];
-	void	*link_left[2];
-	void	*link_down[2];
-	void	*link_right[2];
-	void	*enemy_up[2];
-	void	*enemy_left[2];
-	void	*enemy_down[2];
-	void	*enemy_right[2];
-	int		img_wth;
-	int		img_hgt;
+	int		w;
+	int		h;
 }	t_img;
+
+typedef	struct s_mob
+{
+	void	*up[2];
+	void	*left[2];
+	void	*down[2];
+	void	*right[2];
+}	t_mob;
 
 typedef struct s_game
 {
@@ -71,12 +79,15 @@ typedef struct s_game
 	t_player	player;
 	t_map		map;
 	t_img		img;
+	t_mob		mob;
 }	t_game;
 
 int		close_window();
 int		key(int keycode, t_game *game);
 int		valid_map(t_map *map);
+int		check_elem(t_map *map);
 char	*get_next_line(int fd);
+char	**read_map(t_map *map);
 void	move_up( t_map *map);
 void	move_left( t_map *map);
 void	move_down( t_map *map);
