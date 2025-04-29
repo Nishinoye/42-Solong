@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:25:05 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/03/24 21:13:49 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 01:51:00 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	close_window(void)
 
 int	key(int keycode, t_game *game)
 {
-	game->player.walk = !game->player.walk;
 	if (keycode == 65307)
 		close_window();
 	if (keycode == 119)

@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/03/24 21:22:30 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 01:51:57 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,46 +40,23 @@ typedef struct s_map
 	int		move;
 }	t_map;
 
-typedef struct s_player
+typedef struct s_i
 {
-	void	*up[2];
-	void	*left[2];
-	void	*down[2];
-	void	*right[2];
+	void	*wa;
+	void	*f;
+	void	*k;
+	void	*z;
+	void	*l;
 	int		w;
 	int		h;
-	int		walk;
-	int		hp;
-	int		y;
-	int		x;
-}	t_player;
-
-typedef struct s_img
-{
-	void	*wall;
-	void	*floor;
-	void	*key;
-	void	*zelda;
-	int		w;
-	int		h;
-}	t_img;
-
-typedef	struct s_mob
-{
-	void	*up[2];
-	void	*left[2];
-	void	*down[2];
-	void	*right[2];
-}	t_mob;
+}	t_i;
 
 typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
-	t_player	player;
 	t_map		map;
-	t_img		img;
-	t_mob		mob;
+	t_i			i;
 }	t_game;
 
 int		close_window();
