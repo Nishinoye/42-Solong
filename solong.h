@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/04/30 02:30:38 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:43:48 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # endif
 
 # include "minilibx-linux/mlx.h"
-# include "libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -59,19 +58,26 @@ typedef struct s_game
 	t_i			i;
 }	t_game;
 
-int		close_window();
+size_t	ft_strlen(const char *str);
+int	close_window(t_game *game);
 int		key(int keycode, t_game *game);
 int		valid_map(t_map *map);
 int		check_elem(t_map *map);
 char	*get_next_line(int fd);
 char	**read_map(t_map *map);
-void	move_up( t_map *map);
-void	move_left( t_map *map);
-void	move_down( t_map *map);
-void	move_right( t_map *map);
+char	*ft_strdup(const char *src);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *str, int c);
+void	move_up(t_game *game);
+void	move_left(t_game *game);
+void	move_down(t_game *game);
+void	move_right(t_game *game);
 void	ft_img(t_game *mlx);
 void	aff_img(t_game *game);
 void	ft_exit(t_map *map);
 void	*ft_memcpy(void *dest, const void *src, size_t size);
+void	*ft_calloc(size_t count, size_t type);
+void	destroy_img(t_game *g);
+void	free_map(char **map);
 
 #endif

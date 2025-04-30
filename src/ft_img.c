@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 12:55:37 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/04/30 01:56:29 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:00:12 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,13 @@ void	aff_img(t_game *g)
 		}
 		y++;
 	}
+}
+
+void	destroy_img(t_game *g)
+{
+	mlx_destroy_image(g->mlx, g->i.wa);
+	mlx_destroy_image(g->mlx, g->i.f);
+	mlx_destroy_image(g->mlx, g->i.z);
+	mlx_destroy_image(g->mlx, g->i.k);
+	mlx_destroy_image(g->mlx, g->i.l);
 }

@@ -6,7 +6,7 @@
 #    By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/30 02:28:16 by tedcarpi          #+#    #+#              #
-#    Updated: 2025/04/30 02:28:17 by tedcarpi         ###   ########.fr        #
+#    Updated: 2025/04/30 10:03:32 by tedcarpi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = so_long
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 MLX_FLAGS = -Lminilibx-linux -lmlx_Linux -lXext -lX11 -lm
 
 SRC_DIR = src
