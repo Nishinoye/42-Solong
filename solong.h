@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/04/30 01:51:57 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 02:30:38 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void	move_right( t_map *map);
 void	ft_img(t_game *mlx);
 void	aff_img(t_game *game);
 void	ft_exit(t_map *map);
+void	*ft_memcpy(void *dest, const void *src, size_t size);
 
 #endif

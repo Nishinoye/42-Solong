@@ -6,11 +6,32 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 21:11:30 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/03/24 21:13:35 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 02:30:27 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../solong.h"
+
+void	*ft_memcpy(void *dest, const void *src, size_t size)
+{
+	size_t			i;
+	unsigned char	*ptr1;
+	unsigned char	*ptr2;
+
+	if (size == 0)
+		return (dest);
+	if (!dest && !src)
+		return (NULL);
+	i = 0;
+	ptr1 = (unsigned char *)src;
+	ptr2 = (unsigned char *)dest;
+	while (i < size)
+	{
+		ptr2[i] = ptr1[i];
+		i++;
+	}
+	return (dest);
+}
 
 void	fill_map(int y, int x, char **temp_map, t_map *map)
 {

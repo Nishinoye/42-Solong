@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:02:49 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/02/26 15:06:34 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 02:17:30 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void	ft_bzero(void *str, size_t count)
 	}
 }
 
+char	*ft_strdup(const char *src)
+{
+	char	*res;
+
+	res = (char *) ft_calloc(ft_strlen(src) + 1, sizeof(char));
+	if (res == NULL)
+		return (NULL);
+	ft_memcpy(res, src, ft_strlen(src));
+	return (res);
+}
+
 void	*ft_calloc(size_t count, size_t type)
 {
 	void		*ptr;
@@ -35,16 +46,6 @@ void	*ft_calloc(size_t count, size_t type)
 		return (NULL);
 	ft_bzero(ptr, type * count);
 	return (ptr);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }
 
 char	*ft_strjoin(char *s1, char *s2)

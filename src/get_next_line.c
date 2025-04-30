@@ -6,11 +6,21 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 17:00:47 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/03/18 03:51:35 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 02:17:35 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../solong.h"
+
+size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
 char	*read_file(int fd, char *buffer)
 {
