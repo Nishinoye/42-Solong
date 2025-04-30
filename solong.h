@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:54:29 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/04/30 09:43:48 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:50:52 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ size_t	ft_strlen(const char *str);
 int	close_window(t_game *game);
 int		key(int keycode, t_game *game);
 int		valid_map(t_map *map);
+void	ft_putnbr(int nb);
 int		check_elem(t_map *map);
 char	*get_next_line(int fd);
 char	**read_map(t_map *map);

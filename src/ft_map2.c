@@ -6,7 +6,7 @@
 /*   By: tedcarpi <tedcarpi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 21:11:30 by tedcarpi          #+#    #+#             */
-/*   Updated: 2025/04/30 09:56:31 by tedcarpi         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:29:29 by tedcarpi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	valid_map(t_map *map)
 	char	**temp_map;
 
 	if (!read_map(map))
-		return (0);
+		return (-1);
 	if (!check_elem(map))
 		return (0);
 	temp_map = copy_map(map);
